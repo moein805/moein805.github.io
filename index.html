@@ -3,15 +3,85 @@
 <head>
   <meta charset="UTF-8">
   <title>CodePen - lottery sample</title>
-  <link rel="stylesheet" href="./style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<style>
+  body{
+  letter-spacing: 9px;
+  font-size: 60px;
+  text-align:center;
+  line-height:100vh;
+  font-family: Courier;
+}
+
+html{
+  background: #000;
+  color: #fff;
+}
+
+button {
+    background: transparent;
+    color: #fff;
+    border: 1px solid;
+    padding: 10px 20px;
+    font-size: 20px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+button:hover {
+    background: #fff;
+    color:#000;
+    transition: all 0.5s ease-in-out;
+}
+  <style>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
 </head>
 <body>
 <!-- partial:index.partial.html -->
 <button onClick="start()">Start</button>
 <!-- partial -->
-  <script  src="./script.js"></script>
+  <script>
+let names = [
+"moein805",
+  "moein mosavi"
+];
+  
+count = names.length;
+
+function start(){
+  selected = names[Math.random() * count | 0].toUpperCase();
+  covered = selected.replace(/[^\s]/g, '_');
+  document.body.innerHTML = covered;
+  timer = setInterval(decode, 50);
+}
+
+function decode(){
+  newtext = covered.split('').map(changeLetter()).join('');
+  document.body.innerHTML = newtext;
+  if(selected == covered){
+    clearTimeout(timer);
+    winnerRevealed();
+    return false;
+  }
+  covered = newtext;
+}
+
+function changeLetter(){
+  replacements = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz%!@&*#_ ';
+  replacementsLen = replacements.length;
+  return function(letter, index, err){
+    return selected[index] == letter 
+       ? letter 
+       : replacements[Math.random() * replacementsLen | 0];
+  }
+}
+
+function winnerRevealed(){
+  alert('winner found');
+}
+
+    
+  </script>
 
 </body>
 </html>
